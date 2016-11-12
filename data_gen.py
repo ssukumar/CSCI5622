@@ -48,6 +48,7 @@ for i in range(100,540):
     maxes_over_100ns = [item for sublist in cache for item in sublist]
 maxes_over_100ns = np.array(maxes_over_100ns)
 
+
 # Generator for random noise
 # Returns 1 of 1.7 million valid noise vectors
 def return_noise():
