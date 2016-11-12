@@ -9,4 +9,7 @@ data_gen
 nnet
 ----
 
-- 
+- setup (mini)batches (i.e., call get_data() per epoch)
+- encoder / decoder formalism (needed?)
+- optimize parameters (Spearmint)
+- implement save restore (so model is portable)
