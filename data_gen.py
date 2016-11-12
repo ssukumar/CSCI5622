@@ -1,3 +1,4 @@
+import sys
 import h5py
 import pandas as pd
 import random
@@ -5,6 +6,7 @@ import numpy as np
 from scipy.ndimage.filters import gaussian_filter1d
 from numpy import r_
 
+python_version = sys.version_info.major
 # Get training data
 store = pd.HDFStore('./data/April_20th_wfs.h5','r')
 raw = store['raw'] 
@@ -50,7 +52,7 @@ maxes_over_100ns = np.array(maxes_over_100ns)
 # Returns 1 of 1.7 million valid noise vectors
 def return_noise():
     while True:
-        y_start = random.choice(r_[0:2290156:544][:-1]) + np.randint(0,460)
+        y_start = random.choice(r_[0:2290156:544][:-1]) + np.random.randint(0,460)
         y_noise = noise_pool[y_start:y_start + 544]
         if max(np.abs(y_noise[:-1] - y_noise[1:])) < .045:
             yield y_noise
@@ -65,6 +67,8 @@ def scale_and_noise(shifted_wf, width):
     else:
         peak =np.random.choice(maxes_over_100ns)
     shifted_wf = (shifted_wf / max(shifted_wf)) * peak
+    if python_version < 3:
+        return shifted_wf[:] + noise.next()[4:]
     return shifted_wf[:] + noise.__next__()[4:]
     
 
