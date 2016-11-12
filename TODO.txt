@@ -1,0 +1,12 @@
+
+data_gen
+--------
+
+- update source files to include April 21st flight data
+- segment data to 'complex' and 'plain' wfs (under/over 15ns)
+- fix / remove null values from .h5 files
+
+nnet
+----
+
+- 
