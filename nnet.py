@@ -46,9 +46,12 @@ yval = y[40000:]
 x_train = np.reshape(xtrain, (len(xtrain), 1, 540, 1))
 x_test = np.reshape(xval, (len(xval), 1, 540, 1))
 
-y_train = np.reshape(ytrain, (len(ytrain), 1,540, 1))
-y_test = np.reshape(yval, (len(yval), 1,540, 1))
-print x_train, y_train
+x_train = np.reshape(xtrain, (len(xtrain), 1, 540, 1))
+y_train = np.reshape(xtrain, (len(ytrain), 1, 540, 1))
+x_test = np.reshape(xval, (len(xval), 1, 540, 1))
+y_test = np.reshape(yval, (len(yval), 1, 540, 1))
+
+
 autoencoder.fit(x_train, y_train,
                 nb_epoch=100,
                 batch_size=64,
