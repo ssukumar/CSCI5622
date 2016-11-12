@@ -44,15 +44,15 @@ ytrain = y[:40000]
 xval = x[40000:]
 yval = x[40000:]
 
-autoencoder.fit(x_train, x_train,
+autoencoder.fit(xtrain, ytrain,
                 nb_epoch=100,
                 batch_size=64,
                 shuffle=True,
-                validation_data=(x_test, x_test),
+                validation_data=(xval, yval),
                 callbacks=[TensorBoard(log_dir='/tmp/autoencoder')])
 
 
-decoded_imgs = autoencoder.predict(x_test)
+decoded_imgs = autoencoder.predict(xval)
 
 #encoded_imgs = encoder.predict(xtest)
 #decoded_imgs = decoder.predict(encoded_imgs)
