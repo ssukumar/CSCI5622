@@ -3,6 +3,7 @@ import pandas as pd
 import random
 import numpy as np
 from scipy.ndimage.filters import gaussian_filter1d
+from numpy import r_
 
 # Get training data
 store = pd.HDFStore('./data/April_20th_wfs.h5','r')
@@ -49,7 +50,7 @@ maxes_over_100ns = np.array(maxes_over_100ns)
 # Returns 1 of 1.7 million valid noise vectors
 def return_noise():
     while True:
-        y_start = random.choice(r_[0:2290156:544][:-1]) + randint(0,460)
+        y_start = random.choice(r_[0:2290156:544][:-1]) + np.randint(0,460)
         y_noise = noise_pool[y_start:y_start + 544]
         if max(np.abs(y_noise[:-1] - y_noise[1:])) < .045:
             yield y_noise

@@ -5,22 +5,22 @@ from keras import regularizers
 
 from data_gen import get_data 
 
-input_img = Input(shape=(540,1))
+input_img = Input(shape=(1,540,1))
 
-x = Convolution1D(16, 3, activation='relu', border_mode='same')(input_img)
-x = MaxPooling1D( border_mode='same')(x)
-x = Convolution1D(8, 3, activation='relu', border_mode='same')(x)
-x = MaxPooling1D(border_mode='same')(x)
-x = Convolution1D(8, 3, activation='relu', border_mode='same')(x)
-encoded = MaxPooling1D(border_mode='same')(x)
+x = Convolution2D(16, 3, 1, activation='relu', border_mode='same')(input_img)
+x = MaxPooling2D((2,1), border_mode='same')(x)
+x = Convolution2D(8, 3, 1, activation='relu', border_mode='same')(x)
+x = MaxPooling2D((2,1), border_mode='same')(x)
+x = Convolution2D(8, 3, 1, activation='relu', border_mode='same')(x)
+encoded = MaxPooling2D((2,1), border_mode='same')(x)
 
-x = Convolution1D(8, 3, activation='relu', border_mode='same')(encoded)
-x = UpSampling1D()(x)
-x = Convolution1D(8, 3, activation='relu', border_mode='same')(x)
-x = UpSampling1D()(x)
-x = Convolution1D(16, 3, activation='relu')(x)
-x = UpSampling1D()(x)
-decoded = Convolution1D(1, 3, activation='sigmoid', border_mode='same')(x)
+x = Convolution2D(8, 3, 1, activation='relu', border_mode='same')(encoded)
+x = UpSampling2D((2,1))(x)
+x = Convolution2D(8, 3, 1, activation='relu', border_mode='same')(x)
+x = UpSampling2D((2,1))(x)
+x = Convolution2D(16, 3, 1, activation='relu')(x)
+x = UpSampling2D((2,1))(x)
+decoded = Convolution2D(1, 3, 1, activation='sigmoid', border_mode='same')(x)
 
 autoencoder = Model(input_img, decoded)
 autoencoder.compile(optimizer='rmsprop', loss='binary_crossentropy')
