@@ -64,7 +64,7 @@ for i in range(1,epochs):
 #                     shuffle=True,
 #                     validation_data=(x_test, y_test))#callbacks=[TensorBoard(log_dir='/tmp/autoencoder')])
 
-    decoded_imgs = autoencoder.predict_on_batch(x_test)
+decoded_imgs = autoencoder.predict(x_test)
 
 #encoded_imgs = encoder.predict(xtest)
 #decoded_imgs = decoder.predict(encoded_imgs)
