@@ -82,11 +82,13 @@ def return_shifted(conv_training_wf):
     candidate = random.choice(offsets)
     while candidate >= (542 - bounds_arr[-1]):
         candidate = random.choice(offsets)
-    shifted = np.zeros_like(conv_training_wf)
+    shiftedx = np.zeros_like(conv_training_wf)
+    shiftedy = np.zeros_like(conv_training_wf)
     length = bounds_arr[-1] - bounds_arr[0]
     #print(length,candidate,candidate+length)
-    shifted[candidate:candidate+length] = conv_training_wf[bounds_arr[0]:bounds_arr[-1]]
-    scaledx, scaledy = scale_and_noise(shifted, conv_training_wf, length)
+    shiftedx[candidate:candidate+length] = conv_training_wf[bounds_arr[0]:bounds_arr[-1]]
+    shiftedy[candidate:candidate+length] = conv_training_wf[bounds_arr[0]:bounds_arr[-1]]
+    scaledx, scaledy = scale_and_noise(shiftedx, shiftedy, length)
     return scaledx, scaledy
     #if candidate < (540 - bounds_arr[-1]):
 
