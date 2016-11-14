@@ -5,5 +5,5 @@ data
 .gitignore~
 
 *.txt~
-
+.idea
 *.pyc
