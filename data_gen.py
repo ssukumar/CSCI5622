@@ -62,15 +62,16 @@ def return_noise():
 
 noise = return_noise()
 
-def scale_and_noise(shifted_wf, width):
+def scale_and_noise(shifted_wf, y, width):
     if width < 100:
         peak = np.random.choice(np.array(maxes[width-5]))
     else:
         peak =np.random.choice(maxes_over_100ns)
     shifted_wf = (shifted_wf / max(shifted_wf)) * peak
+    y = (y / max(y)) * peak
     if python_version < 3:
-        return shifted_wf[:] + noise.next()[4:]
-    return shifted_wf[:] + noise.__next__()[4:]
+        return shifted_wf[:] + noise.next()[4:], y
+    return shifted_wf[:] + noise.__next__()[4:], y
     
 
 # Function for offsets
@@ -85,8 +86,8 @@ def return_shifted(conv_training_wf):
     length = bounds_arr[-1] - bounds_arr[0]
     #print(length,candidate,candidate+length)
     shifted[candidate:candidate+length] = conv_training_wf[bounds_arr[0]:bounds_arr[-1]]
-    scaled = scale_and_noise(shifted, length)
-    return scaled
+    scaledx, scaledy = scale_and_noise(shifted, y, length)
+    return scaledx, scaledy
     #if candidate < (540 - bounds_arr[-1]):
 
 # Function to get data
@@ -98,5 +99,5 @@ def get_data(number_of_wfs_to_get):
     y = gaussian_filter1d(xtrain[idx,:],.8,axis=1)
     offset_with_noise = np.zeros_like(y)
     for i, wf in enumerate(y):
-        offset_with_noise[i] = return_shifted(wf)
+        offset_with_noise[i], y[i] = return_shifted(wf)
     return offset_with_noise, y, idx
