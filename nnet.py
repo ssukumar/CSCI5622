@@ -1,4 +1,5 @@
-#from keras.callbacks import TensorBoard
+import keras
+# from keras.callbacks import TensorBoard
 from keras.layers import Input, Convolution2D, MaxPooling2D, UpSampling2D
 from keras.models import Model
 from keras import regularizers
@@ -37,29 +38,32 @@ autoencoder.compile(optimizer='rmsprop', loss='binary_crossentropy')
 
 #autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 
-x, y, idx = get_data(50000)
-xtrain = x[:40000]
-ytrain = y[:40000]
-xval = x[40000:]
-yval = y[40000:]
+epochs = 100;
 
-x_train = np.reshape(xtrain, (len(xtrain), 1, 540, 1))
-x_test = np.reshape(xval, (len(xval), 1, 540, 1))
+for i in range(epochs):
 
-x_train = np.reshape(xtrain, (len(xtrain), 1, 540, 1))
-y_train = np.reshape(xtrain, (len(ytrain), 1, 540, 1))
-x_test = np.reshape(xval, (len(xval), 1, 540, 1))
-y_test = np.reshape(yval, (len(yval), 1, 540, 1))
+    x, y, idx = get_data(50000)
+    xtrain = x[:40000]
+    ytrain = y[:40000]
+    xval = x[40000:]
+    yval = y[40000:]
+    x_train = np.reshape(xtrain, (len(xtrain), 1, 540, 1))
+    y_train = np.reshape(xtrain, (len(ytrain), 1, 540, 1))
+    x_test = np.reshape(xval, (len(xval), 1, 540, 1))
+    y_test = np.reshape(yval, (len(yval), 1, 540, 1))
+    
+    train_loss = autoencoder.train_on_batch(x_train, y_train)
+    test_loss = autoencoder.test_on_batch(x_test,y_test)
+    
+    print("Epoch no = %d Training loss = %1.4f, Validation Loss = %1.4f" %i %train_loss %test_loss)
+#     autoencoder.fit(x_train, y_train,
+#                     nb_epoch=100,
+#                     batch_size=64,
+#                     shuffle=True,
+#                     validation_data=(x_test, y_test))#callbacks=[TensorBoard(log_dir='/tmp/autoencoder')])
 
 
-autoencoder.fit(x_train, y_train,
-                nb_epoch=100,
-                batch_size=64,
-                shuffle=True,
-                validation_data=(x_test, y_test))#callbacks=[TensorBoard(log_dir='/tmp/autoencoder')])
-
-
-decoded_imgs = autoencoder.predict(x_test)
+# decoded_imgs = autoencoder.predict(x_test)
 
 #encoded_imgs = encoder.predict(xtest)
 #decoded_imgs = decoder.predict(encoded_imgs)
