@@ -86,7 +86,7 @@ def return_shifted(conv_training_wf):
     length = bounds_arr[-1] - bounds_arr[0]
     #print(length,candidate,candidate+length)
     shifted[candidate:candidate+length] = conv_training_wf[bounds_arr[0]:bounds_arr[-1]]
-    scaledx, scaledy = scale_and_noise(shifted, y, length)
+    scaledx, scaledy = scale_and_noise(shifted, conv_training_wf, length)
     return scaledx, scaledy
     #if candidate < (540 - bounds_arr[-1]):
 
