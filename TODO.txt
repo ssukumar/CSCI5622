@@ -18,7 +18,18 @@ Added 20161113
 1-automate building the neural net
 	a-number of layers, 
 	b-decide which parameters to use: 
-		i. number of kernels and dimensions (d,1), 
-		ii. activation functions,
-		iii. weight regularizers, 
-		iv. weights initialization.
+		i. 	number of kernels and dimensions (d,1), 
+		ii. 	activation functions,
+		iii. 	weight regularizers, 
+		iv. 	weights initialization.
+
+2-Change binary cross entropy to MSE
+
+3-Write report baseline:
+	a-description of 
+		i.	generation of data 
+		ii. 	de-noising convolution neural net auto-encoder
+		iii. 	manual/ grid search 
+	b-run and get result (baseline for hyperparameter tunning -1st goal)
+	
+	
