@@ -12,6 +12,8 @@ nnet
 - setup (mini)batches (i.e., call get_data() per epoch)
 - optimize parameters (Spearmint)
 - implement save restore (so model is portable)
+- include 2D spatial dropout
+- include (de)ception for backing out of inception module
 
 Added 20161113
 
