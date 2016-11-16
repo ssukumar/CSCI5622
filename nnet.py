@@ -14,6 +14,9 @@ input_img = Input(shape=(1,540,1))
 # ...and from:
 # http://joelouismarino.github.io/blog_posts/blog_googlenet_keras.html
 
+# L2 regularizer **should** be changed to L1... question is if *all* 
+# regularizers should be L1, or if some should be L2 weight decay
+
 def inception_module(x, params, dim_ordering, concat_axis,
                      subsample=(1, 1), activation='relu',
                      border_mode='same', weight_decay=None):
@@ -112,6 +115,7 @@ x = Convolution2D(8, 3, 1, activation='relu', border_mode='same')(x)
 x = UpSampling2D((2,1))(x)
 x = Convolution2D(8, 3, 1, activation='relu', border_mode='same')(x)
 x = UpSampling2D((2,1))(x)
+# Change below to get to 544 samples (and change input to 544)
 x = Convolution2D(16, 3, 1, activation='relu')(x)
 x = UpSampling2D((2,1))(x)
 decoded = Convolution2D(1, 3, 1, activation='relu', border_mode='same')(x)
@@ -132,7 +136,7 @@ for i in range(epochs):
     xval = x[8000:]
     yval = y[8000:]
     x_train = np.reshape(xtrain, (len(xtrain), 1, 540, 1))
-    y_train = np.reshape(xtrain, (len(ytrain), 1, 540, 1))
+    y_train = np.reshape(ytrain, (len(ytrain), 1, 540, 1))
     x_test = np.reshape(xval, (len(xval), 1, 540, 1))
     y_test = np.reshape(yval, (len(yval), 1, 540, 1))
     
@@ -147,3 +151,27 @@ for i in range(epochs):
 #encoded_imgs = encoder.predict(xtest)
 #decoded_imgs = decoder.predict(encoded_imgs)
 
+################ Save the model #####################
+"""
+# serialize model to JSON
+model_json = autoencoder.to_json()
+with open("model.json", "w") as json_file:
+    json_file.write(model_json)
+# serialize weights to HDF5
+autoencoder.save_weights("model.h5")
+print("Saved model to disk")
+"""
+#####################################################
+
+############### Restore the model ###################
+"""
+# load json and create model
+json_file = open('model.json', 'r')
+loaded_model_json = json_file.read()
+json_file.close()
+loaded_model = model_from_json(loaded_model_json)
+# load weights into new model
+loaded_model.load_weights("model.h5")
+print("Loaded model from disk")
+"""
+#####################################################
